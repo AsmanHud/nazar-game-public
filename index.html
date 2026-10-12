@@ -1,4 +1,4 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body><title>Сломанный сигнал</title>
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#070B15"><meta name="color-scheme" content="dark light"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Сломанный сигнал"></head><body><title>Сломанный сигнал</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=JetBrains+Mono:wght@600;700;800&family=Unbounded:wght@600;700;800&display=swap">
@@ -1355,6 +1355,228 @@ body:not(.has-modal) #app .top{position:relative;z-index:51}
 :root[data-look="code"] .face{filter:saturate(.72) contrast(1.03)}
 @media (max-width:720px){.ia-face{width:5.5rem;border-radius:16px}}
 
+/* ======================= телефоны и планшеты =======================
+   Всё ниже включается только на узких экранах, на сенсорных устройствах или там, где браузер
+   сам сжимает высоту окна (адресная строка). На компьютере с мышью вид не меняется. */
+.dzbtn,.m-only{display:none}
+.phit{fill:transparent;display:none}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.ov,.full,.sheet,.tlist,.rp-ev{overscroll-behavior:contain}
+/* вырезы и «домашняя полоска» iPhone: viewport-fit=cover, поэтому отступы от безопасной зоны */
+#app{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+.full{padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right));padding-bottom:calc(2rem + env(safe-area-inset-bottom))}
+#toast{bottom:calc(1.2rem + env(safe-area-inset-bottom))}
+/* 100vh на телефоне выше видимой части (адресная строка) — берём динамическую высоту */
+@supports (height:100dvh){
+  .sheet{max-height:calc(100dvh - 2.4rem)}
+  .ov.stageov .sheet{max-height:calc(100dvh - var(--padt) - 1.2rem)}
+  .full-in.center{min-height:calc(100dvh - 3.6rem)}
+}
+/* сетки в одну колонку не должны раздуваться по самому широкому ребёнку (таблицы, графики) */
+@media (max-width:1180px){
+  .hero,.fin-grid,.deb-2,.deb,.intro,.at-wrap,.best,.rp-grid,.traps,.st-teams,.why,.fin-dos,.howto2{grid-template-columns:minmax(0,1fr)}
+  .st-wrap,.tr-wrap{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ---------- сенсорный ввод: без подсказок клавиатуры, крупнее цели для пальца ---------- */
+@media (hover:none){
+  html{touch-action:manipulation}
+  .btn .kbd,.kbhelp{display:none}
+  .btn,.ver,.trow,.chip-btn,.case-card,.opt,.fopt,.rtabs button,.deb-nav button,.at-list li,.dia .pin,.dia .nd{-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+  .dia .phit{display:inline;transform:scale(1.6)}
+  .clickable .trow.closed:hover{border-color:var(--line);background:var(--panel-2);box-shadow:none}
+  .clickable .trow.closed:active{border-color:var(--signal);background:var(--panel-3)}
+  .clickable .ver:active{border-color:var(--tc,var(--ink-2));background:var(--panel-3)}
+  .inp{font-size:max(1rem,16px)} /* иначе iOS увеличивает страницу при вводе названия штаба */
+}
+/* планшет и телефон: панель штабов прилипает к низу экрана — видно, кто ходит, и таймер */
+@media (max-width:1180px) and (hover:none),(max-width:720px){
+  #app{padding-bottom:0}
+  #bar{position:sticky;bottom:0;z-index:30;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left))) calc(-1 * max(16px,env(safe-area-inset-right)));
+    padding:.5rem max(12px,env(safe-area-inset-right)) calc(.5rem + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left));
+    background:var(--bg);background:color-mix(in srgb,var(--bg) 86%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+  .m-only{display:inline-flex}
+}
+
+/* ---------- телефон ---------- */
+@media (max-width:720px){
+  .ov{padding:max(.75rem,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) calc(.75rem + env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left))}
+  .full{padding-top:max(.9rem,env(safe-area-inset-top));padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+  #app{grid-template-columns:minmax(0,1fr);gap:.6rem;padding-top:max(.55rem,env(safe-area-inset-top));padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+  #bar{margin-inline:calc(-1 * max(12px,env(safe-area-inset-left))) calc(-1 * max(12px,env(safe-area-inset-right)))}
+
+  /* шапка: без логотипа, три короткие строки — дело, прогресс, кнопки */
+  .top{gap:.45rem .6rem}
+  .top .brand{display:none}
+  .crumb{flex-wrap:wrap;gap:.35rem .5rem;width:100%}
+  .crumb .num{font-size:.82rem;padding:.2rem .5rem}
+  .crumb .ttl{flex-basis:100%;font-size:.95rem}
+  .top .dots{flex-wrap:wrap;width:100%}
+  .top .right{width:100%;gap:.4rem}
+  .top .right .clock{font-size:.95rem;margin-right:auto}
+  .top .right .btn{min-height:2.4rem}
+
+  /* сцена: одна колонка в порядке игры — состояние, схема, версии, анализы, карта пациента */
+  .stage{display:flex;flex-direction:column;gap:.6rem}
+  .stage>section{display:contents}
+  .stage>section>*{flex:none}
+  #mon{order:1;height:7.4rem}
+  #hp{order:2}
+  .diap{order:3}
+  #versp{order:4}
+  #testsp{order:5}
+  #pcard{order:6;overflow:visible}
+  .mon .m-hr{font-size:2rem}
+  .bmap{width:4rem}
+  .hp{padding:.55rem .8rem .65rem;gap:.35rem}
+  .seg{height:.9rem}
+
+  /* схема: «Крупнее» — листается вбок, «Целиком» — вся в ширину экрана */
+  .diap{min-height:0;min-width:0;overflow:visible}
+  .diap .pnl-h{height:auto;min-height:2.6rem;flex-wrap:wrap;gap:.35rem .6rem;padding:.55rem .8rem .2rem}
+  .diap .pnl-h .lbl{flex-basis:100%;order:3;font-size:.62rem}
+  .dzbtn{display:inline-flex;margin-left:auto}
+  .mechbtn+.dzbtn{margin-left:0}
+  .diabox{display:block;padding:.2rem .4rem .5rem;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin;border-radius:0 0 18px 18px}
+  .diabox>.dia{display:block;width:100%;height:auto;max-height:none}
+  .diabox.zoom>.dia{width:42rem;max-width:none}
+  .diabox .dive{border-radius:12px}
+  .dv-cap{font-size:.62rem;left:.6rem;bottom:.5rem}
+
+  .ver{min-height:3rem;font-size:.92rem}
+  .tlist{padding:.35rem .5rem .6rem;overflow:visible}
+  .tlist>li{min-height:2.95rem;max-height:none}
+  .trow{padding:.5rem .55rem}
+  .trow .by{max-width:5.2rem}
+  .testsp .pnl-h{padding:.65rem .8rem .2rem}
+  .closep{padding:.9rem .85rem;overflow:visible}
+  .res-line{flex-direction:column;gap:.15rem}
+  .res-line .k{width:auto}
+  .closep .row.end .btn{width:100%;justify-content:center}
+  .pcard{padding:.75rem .85rem .9rem}
+  .stamp{font-size:1.1rem;bottom:6.6rem}
+
+  /* панель штабов: три карточки в ряд, строка с паузой и «+15 с» — только во время хода */
+  #bar{grid-template-columns:repeat(3,minmax(0,1fr));gap:.4rem}
+  #bar>.team,#bar>.prompt{min-height:0}
+  .team{flex-wrap:wrap;gap:.1rem .35rem;padding:.45rem .5rem .4rem;border-radius:12px;align-items:center;overflow:hidden}
+  .team .sw{position:absolute;left:0;right:0;top:0;width:auto;height:3px;border-radius:0}
+  .team .tinfo{display:contents}
+  .team .tn{flex:1 1 100%;font-size:.84rem;line-height:1.2;margin-top:.1rem}
+  .team .ts{flex:1 1 0;min-width:0;margin:0;font-size:.56rem;letter-spacing:.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .team .sc{font-size:1.35rem}
+  .team .bdgs{display:none}
+  .team.now{box-shadow:0 0 0 1px var(--tc),0 0 1rem var(--tca)}
+  .ringbox{width:1.85rem;height:1.85rem}
+  .ringbox .rtx{font-size:.68rem}
+  .float{right:.4rem;top:.1rem;font-size:1.15rem}
+  .prompt{grid-column:1/-1;padding:.3rem .35rem .3rem .65rem;border-radius:12px;gap:.4rem;border-style:solid}
+  .prompt .say{font-size:0;line-height:1}
+  .prompt .say .lbl{margin:0;font-size:.6rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .prompt .btn{padding:.42rem .65rem;font-size:.8rem}
+  .prompt .bluet{font-size:1.15rem;padding:.2rem .4rem}
+  .prompt:not(:has(.btn,.bluet)){display:none}
+
+  /* окна: тоньше поля, крупные кнопки во всю ширину */
+  .sheet{padding:1.1rem 1rem 1.15rem;border-radius:18px}
+  .sheet h2{font-size:1.3rem;padding-right:2.6rem}
+  .sheet .x{top:.7rem;right:.7rem;width:2.5rem;height:2.5rem;padding:0;justify-content:center;font-size:0;border-radius:50%}
+  .sheet .x .kbd{display:none}
+  .sheet .x::before{content:'✕';font-size:1rem}
+  .sheet .row.end{gap:.5rem}
+  .sheet .row.end .btn{flex:1 1 auto;justify-content:center}
+  .intro .ia{padding:1.1rem 1rem;gap:.8rem}
+  .intro .ib{padding:1rem}
+  .intro h1{font-size:1.75rem}
+  .intro .cmp,.intro .pl{font-size:1.02rem}
+  .intro .row .btn{flex:1 1 100%;justify-content:center}
+  .confirm .big{font-size:1.1rem}
+  .treat-head{gap:.6rem}
+  .treat-head .q{font-size:1.15rem}
+  .ringbig{width:3.4rem;height:3.4rem}
+  .ringbig .rtx{font-size:1rem}
+  .opts{gap:.45rem;margin-top:.8rem}
+  .opt{min-height:3.2rem;padding:.6rem .75rem;font-size:1rem;gap:.7rem}
+  .opt .L{width:2.1rem;height:2.1rem;font-size:1rem}
+  .opt .pickers{position:static;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+  .entry{padding:.7rem;margin-top:.9rem}
+  .erow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) auto;gap:.35rem;padding-top:.35rem}
+  .erow .en{grid-row:1;grid-column:1/-1;max-width:none;padding-right:2.6rem}
+  .erow .res{grid-row:1;grid-column:-2/-1;justify-self:end;margin:0}
+  .chip-btn{min-height:2.6rem;padding:.4rem .3rem}
+  .chip-btn.none{padding:.4rem .55rem}
+  .lookseg{flex-wrap:wrap}
+  .replay .rp-ev{max-height:none}
+
+  /* справка по узлу — шторка снизу */
+  .pop.sheet-pop{left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right));top:auto;bottom:calc(10px + env(safe-area-inset-bottom));width:auto;max-height:60dvh;overflow:auto;gap:.8rem;padding:.8rem .85rem;animation:popsheet .28s cubic-bezier(.2,.9,.3,1)}
+  .pop.sheet-pop .pop-g{width:6.2rem;height:5.6rem}
+  .ctip{max-width:calc(100vw - 20px)}
+  .spot-lbl{width:max-content;max-width:calc(100vw - 16px);white-space:normal;text-align:center;justify-content:center;font-size:.95rem}
+  #medal{left:50%;right:auto;top:calc(.7rem + env(safe-area-inset-top));transform:translateX(-50%);width:calc(100vw - 20px);display:flex;justify-content:center}
+  .medal{max-width:100%}
+  .splash{padding:1.1rem 1.2rem}
+  .pausebar{top:calc(.6rem + env(safe-area-inset-top));white-space:nowrap}
+
+  /* полноэкранные: старт, финал, итоги, разбор */
+  :root[data-look="code"] .hero-l > :not(canvas){max-width:none}
+  .hero-l{padding:1.3rem 1.2rem;min-height:0}
+  .hero-r{padding:1.1rem 1rem}
+  .hero .row .btn{flex:1 1 auto;justify-content:center}
+  .resume .btn{flex:1 1 auto;justify-content:center}
+  .full-in>.row:first-child{row-gap:.6rem}
+  .full-in>.row:first-child>.rtabs{order:5;flex:1 1 100%}
+  .rtabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}
+  .rtabs::-webkit-scrollbar{display:none}
+  .rtabs button{flex:none}
+  .deb-nav{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:.2rem}
+  .deb-nav::-webkit-scrollbar{display:none}
+  .deb-nav button{flex:none;max-width:15rem}
+  .deb-card{padding:1rem .9rem}
+  .deb-card h2{font-size:1.25rem}
+  .pod.p1{order:-1}
+  .podium{gap:.6rem}
+  .pod .ps{font-size:2.1rem}
+  .winner{font-size:1.6rem}
+  .stats{gap:.5rem}
+  .stat b{font-size:1.35rem}
+  .st-chart,.at-side,.best{padding:.9rem}
+  .st-h h2{font-size:1.1rem}
+  .best-l .btn{width:100%;justify-content:center}
+  .trap{padding:.9rem;gap:.6rem}
+  .tr-n{font-size:1.8rem}
+  .fin-head h1{font-size:1.8rem!important}
+  .fin-head p{font-size:.98rem!important}
+  .fin-grid .fin-dia .dia{max-height:none;width:100%}
+  .fin-dos{gap:1.2rem}
+  .fin-dos-l .btn{width:100%;justify-content:center}
+  .dossier.big{padding:1.1rem 1rem 5rem}
+  .dossier.big .dl{font-size:.95rem}
+  .dossier.big .dz-stamp{font-size:1.3rem;bottom:1.2rem}
+  .frow{padding:.6rem .7rem;gap:.5rem}
+  .frow .picks .chip-btn{min-width:2.5rem;min-height:2.5rem}
+  .full-in .row.end>.btn.big{width:100%;justify-content:center}
+  .tbl{font-size:.84rem}
+}
+@keyframes popsheet{from{opacity:0;transform:translateY(1.5rem)}to{opacity:1;transform:none}}
+/* телефон боком: экран низкий — компактная шапка и панель штабов в одну строку */
+@media (max-height:540px) and (hover:none) and (min-width:721px){
+  .top .brand{display:none}
+  #bar{grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:.4rem}
+  #bar>.team,#bar>.prompt{min-height:0}
+  .team{padding:.35rem .6rem;gap:.5rem}
+  .team .ts{display:none}
+  .team .sc{font-size:1.4rem}
+  .ringbox{width:2rem;height:2rem}
+  .ringbox .rtx{font-size:.72rem}
+  #bar .prompt{grid-column:auto;padding:.3rem .5rem}
+  .prompt .say{display:none}
+  .prompt:not(:has(.btn,.bluet)){display:none}
+  #bar:not(:has(.prompt .btn,.prompt .bluet)){grid-template-columns:repeat(3,minmax(0,1fr))}
+  .diap{min-height:20rem}
+  .sheet{padding:1rem 1.2rem}
+}
+
 </style>
 <div id="app" hidden>
   <header class="top" id="top"></header>
@@ -2315,7 +2537,7 @@ function diagram(d,G,pins,cls){
   let nd='';
   for(const id in G.N){const n=G.N[id];const hb=n.cb;let hh=0;for(const ch of id)hh=(hh*31+ch.charCodeAt(0))>>>0;nd+=`<g class="nd k-${n.kind} g-${n.g}${n.mem?' mem':''}" data-n="${id}" data-act="node" transform="translate(${n.x} ${n.y})"><rect class="hit" x="${r1(hb[0]-n.x)}" y="${r1(hb[1]-n.y)}" width="${r1(hb[2]-hb[0])}" height="${r1(hb[3]-hb[1])}"/><g class="nd-in"><g class="nd-idle" style="--it:${(5.5+hh%30/10).toFixed(1)}s;--id:-${(hh%70/10).toFixed(1)}s">${glyph(n)}</g></g></g>`}
   let pn='';
-  (pins||[]).forEach(p=>{const [x,y]=pinPos(G,p.at);pn+=`<g class="pin ${p.cls||''}" data-act="pin" data-v="${p.n}" transform="translate(${r1(x)} ${r1(y)})"><circle class="halo" r="17"/><circle class="pc" r="17"/><text x="0" y="1">${p.n}</text><path class="x" d="M-7 -7L7 7M7 -7L-7 7" style="display:none"/></g>`});
+  (pins||[]).forEach(p=>{const [x,y]=pinPos(G,p.at);pn+=`<g class="pin ${p.cls||''}" data-act="pin" data-v="${p.n}" transform="translate(${r1(x)} ${r1(y)})"><circle class="phit" r="17"/><circle class="halo" r="17"/><circle class="pc" r="17"/><text x="0" y="1">${p.n}</text><path class="x" d="M-7 -7L7 7M7 -7L-7 7" style="display:none"/></g>`});
   return `<svg class="dia ${cls||''}" data-cid="${G.cid||''}" viewBox="0 -36 900 596" role="img" aria-label="Схема сигнального пути">${z}<g class="edges">${ed}</g><g class="parts"></g><g class="nodes">${nd}</g><g class="fxl"></g><g class="pins">${pn}</g></svg>`;
 }
 function applyMoves(){
@@ -2919,6 +3141,11 @@ const LS=IS_DEMO?'slomanny-signal-demo-v1':'slomanny-signal-v1', LSUI='slomanny-
 const DOS=()=>!!(S&&S.cfg&&S.cfg.finale);
 const DEMOTAG=IS_DEMO?'<span class="tag demo">демо</span>':'';
 const RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* телефон: узкий экран (одна колонка, закреплённая панель штабов) и сенсорный ввод (нет наведения) */
+const NARROWQ=window.matchMedia?matchMedia('(max-width:720px)'):null;
+const isNarrow=()=>!!(NARROWQ&&NARROWQ.matches);
+const TOUCH=!!(window.matchMedia&&matchMedia('(hover: none)').matches);
+const hv=(mouse,touch)=>TOUCH?touch:mouse;
 const CMAP={}; CASES.forEach(c=>CMAP[c.id]=c);
 const store={
   get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}},
@@ -3015,7 +3242,7 @@ function award(t,id){if(ONCE.includes(id)&&S.badges.some(b=>b.t===t&&b.id===id))
 let MEDgen=0;
 function flushMedals(delay){if(medBusy||!MEDQ.length)return;medBusy=true;const g=MEDgen;setTimeout(()=>{if(g===MEDgen)nextMedal()},delay||0)}
 function nextMedal(){const host=$('#medal');const m=MEDQ.shift();if(!m){medBusy=false;host.innerHTML='';return}const b=BADGES[m.id];
-  const tc=document.querySelector(`#app:not([hidden]) #bar .team.tcol${m.t}`);if(tc){const r=tc.getBoundingClientRect();host.style.cssText=`left:${(r.left+r.width/2).toFixed(0)}px;top:${(r.top-12).toFixed(0)}px;right:auto;transform:translate(-50%,-100%)`;host.className='at-team'}else{host.style.cssText='';host.className=''}
+  const tc=!isNarrow()&&document.querySelector(`#app:not([hidden]) #bar .team.tcol${m.t}`);if(tc){const r=tc.getBoundingClientRect();host.style.cssText=`left:${(r.left+r.width/2).toFixed(0)}px;top:${(r.top-12).toFixed(0)}px;right:auto;transform:translate(-50%,-100%)`;host.className='at-team'}else{host.style.cssText='';host.className=''}
   host.innerHTML=`<div class="medal tcol${m.t}"><span class="mi">${icon(b.ic)}</span><div><div class="lbl" style="color:var(--gold)">Значок · ${esc(name(m.t))}</div><div class="mn">${b.name}</div><div class="mw">${b.why}</div></div></div>`;
   const g=MEDgen;setTimeout(()=>{if(g===MEDgen)nextMedal()},RM?1500:3400)}
 function badgeCounts(t){const r={};S.badges.forEach(b=>{if(b.t===t)r[b.id]=(r[b.id]||0)+1});return r}
@@ -3064,6 +3291,8 @@ let SUSP=null;const ANIM={stamp:null,arch:null};
 function startSuspense(n){
   const team=S.cs.coop?-1:S.cs.turn;S.modal=null;clearFX();render();SUSP={n};MON.frozen=true;
   const at=verAt(C(),n),pin=DIA.svg&&DIA.svg.querySelector(`.pin[data-v="${n}"]`);let x=innerWidth/2,y=innerHeight/2,r=58;
+  /* на телефоне флажок может быть за краем экрана или схемы — сначала подводим его к центру */
+  if(pin&&isNarrow()&&pin.scrollIntoView){try{pin.scrollIntoView({block:'center',inline:'center',behavior:'instant'})}catch(e){pin.scrollIntoView()}}
   if(pin){const b=pin.getBoundingClientRect();x=b.left+b.width/2;y=b.top+b.height/2;pin.classList.add('suspect');
     const hit=!at.includes('>')&&DIA.svg.querySelector(`.nd[data-n="${at}"] .hit`);
     if(hit){const q=hit.getBoundingClientRect(),x0=Math.min(q.left,b.left),x1=Math.max(q.right,b.right),y0=Math.min(q.top,b.top),y1=Math.max(q.bottom,b.bottom);x=(x0+x1)/2;y=(y0+y1)/2;r=clamp(Math.hypot(x1-x0,y1-y0)/2+14,58,170)}}
@@ -3072,6 +3301,7 @@ function startSuspense(n){
   const below=y+r+70<innerHeight,ly=below?y+r+10:y-r-56;
   el.innerHTML=`<div class="spot-lbl ${tcls(team)}" style="left:${x}px;top:${ly}px"><b>${esc(dname(team))}</b> · версия ${n} · проверяем<span class="dots"><i>.</i><i>.</i><i>.</i></span></div>`;
   document.body.appendChild(el);
+  const lb=el.querySelector('.spot-lbl'),lw=lb.offsetWidth;if(x-lw/2<8||x+lw/2>innerWidth-8)lb.style.left=clamp(x,lw/2+8,Math.max(lw/2+8,innerWidth-lw/2-8))+'px';
   setTimeout(()=>{if(el.animate)el.animate([{opacity:1},{opacity:0}],{duration:220,fill:'forwards'})},RM?80:1880);
   setTimeout(()=>{el.remove();MON.frozen=false;SUSP=null;if(pin)pin.classList.remove('suspect');if(row)row.classList.remove('suspect');doGuess(n)},RM?300:2100);
 }
@@ -3225,7 +3455,9 @@ function stageDiagram(){
   if(DIA.id!==c.id||!DIA.svg||!DIA.svg.isConnected){
     const G=geom(c.dia,c.id);const pins=c.disp.map((canon,k)=>({n:k+1,at:c.vers[canon-1][0]}));
     mechStop();$('#diabox').innerHTML=diagramSVG(c.dia,G,pins,'');DIA.svg=$('#diabox svg');DIA.G=G;DIA.id=c.id;DIA.rev=null;peInit(DIA.svg,G);fpsWatch();const mo=$('#motif');if(mo)mo.innerHTML=motifSVG(c.motif);
+    $('#diabox').classList.toggle('zoom',UI.dz!==false);diaFocus();
   }
+  $('#diabox').classList.toggle('zoom',UI.dz!==false);
   const cs=S.cs,svg=DIA.svg;
   svg.classList.toggle('clickable',S.phase==='play');
   svg.querySelectorAll('.pin').forEach(p=>{
@@ -3234,8 +3466,17 @@ function stageDiagram(){
     p.style.setProperty('--wc',g&&!g.ok?tvar(g.team):'');
     p.querySelector('.x').style.display=g&&!g.ok?'':'none';p.querySelector('text').style.display=g&&!g.ok?'none':'';
   });
-  if(S.phase==='close'){ if(DIA.rev!==c.id){DIA.rev=c.id;const tip=()=>{if(C()&&C().practice)coachTip('close')};if(RM){applyReveal(svg,c,DIA.G,true);setTimeout(tip,400)}else mechDelay(svg,c,DIA.G,1500,tip)} }
+  if(S.phase==='close'){ if(DIA.rev!==c.id){DIA.rev=c.id;{const b=c.brk,id=b.type==='path'?b.nodes[1]:String(b.at||'').split('>')[0];diaFocus(id?svg.querySelector(`.nd[data-n="${id}"]`):null)}const tip=()=>{if(C()&&C().practice)coachTip('close')};if(RM){applyReveal(svg,c,DIA.G,true);setTimeout(tip,400)}else mechDelay(svg,c,DIA.G,1500,tip)} }
   else if(DIA.rev){mechStop();CELLART.reset(svg);svg.classList.remove('reveal');svg.querySelectorAll('.dim,.lit,.brk,.flood,.good,.side').forEach(el=>el.classList.remove('dim','lit','brk','flood','good','side'));svg.querySelector('.fxl').innerHTML='';peModes({});DIA.rev=null}
+}
+
+/* телефон: крупная схема листается вбок — подводим к флажкам версий (или к месту поломки) */
+function diaFocus(el){
+  const db=$('#diabox');if(!db||!isNarrow())return;
+  requestAnimationFrame(()=>{if(!db.isConnected||db.scrollWidth<=db.clientWidth+1)return;const br=db.getBoundingClientRect();let mid;
+    if(el&&el.isConnected){const r=el.getBoundingClientRect();mid=r.left+r.width/2}
+    else{const xs=[...db.querySelectorAll('.pin')].map(p=>{const r=p.getBoundingClientRect();return r.left+r.width/2});mid=xs.length?(Math.min(...xs)+Math.max(...xs))/2:br.left+db.scrollWidth/2-db.scrollLeft}
+    db.scrollLeft=db.scrollLeft+mid-(br.left+br.width/2)});
 }
 
 /* ---------- монитор пациента ---------- */
@@ -3461,12 +3702,25 @@ function render(){
   closePop();if(!(S.modal&&S.modal.k==='replay')&&RP.t.length){RP.t.forEach(clearTimeout);RP.t=[]}applyUI();
   const stage=inStage();
   $('#app').hidden=!stage;
+  /* телефон: страница длинная — при смене этапа возвращаемся к началу, где схема и шапка с паузой
+     (до замера шапки: от её высоты зависит отступ окон поступления и лечения) */
+  const vk=S.phase+':'+S.ci;if(vk!==LASTVIEW){const prev=LASTVIEW;LASTVIEW=vk;if(prev&&stage&&isNarrow()&&['intro','play','treat','close'].includes(S.phase))scrollTo(0,0)}
   if(stage){renderTop();topH();renderStage();renderBar()}else FLOATS=[];
   renderFull();renderOverlay();
-  document.body.dataset.phase=S.phase;gradeUI();
+  document.body.dataset.phase=S.phase;gradeUI();wakeSync();
   save();LOSE=false;if(COACH.on)coachPlace();
 }
-function applyUI(){const r=document.documentElement;if(UI.look==='day'||UI.look==='code')r.dataset.look=UI.look;else delete r.dataset.look;if(UI.look==='code'&&UI.tint!=='green')r.dataset.tint=UI.tint;else delete r.dataset.tint;r.style.setProperty('--ui',UI.scale);rainSync()}
+let LASTVIEW='';
+/* телефон и планшет: пока идёт игра, экран не гаснет (Wake Lock, только https) */
+let WAKE=null;
+function wakeSync(){
+  if(!TOUCH||!navigator.wakeLock)return;const want=(inStage()||S.phase==='finale')&&!document.hidden;
+  if(want&&!WAKE){WAKE='…';navigator.wakeLock.request('screen').then(l=>{WAKE=l;l.addEventListener('release',()=>{if(WAKE===l)WAKE=null});wakeSync()}).catch(()=>{WAKE=null})}
+  else if(!want&&WAKE&&WAKE.release){WAKE.release().catch(()=>{});WAKE=null}
+}
+document.addEventListener('visibilitychange',()=>{if(S)wakeSync()});
+function applyUI(){const r=document.documentElement;if(UI.look==='day'||UI.look==='code')r.dataset.look=UI.look;else delete r.dataset.look;if(UI.look==='code'&&UI.tint!=='green')r.dataset.tint=UI.tint;else delete r.dataset.tint;r.style.setProperty('--ui',UI.scale);rainSync();
+  const tm=document.querySelector('meta[name=theme-color]');if(tm){const bg=getComputedStyle(r).getPropertyValue('--bg').trim();if(bg&&tm.content!==bg)tm.content=bg}}
 function renderTop(){
   const c=C(),tot=realIds().length;
   const dots=S.order.map((id,k)=>{const lg=S.log[k];let cls='';if(lg)cls=lg.diag?'done':'lost';else if(k===S.ci)cls='now';return `<i class="dot ${cls}" title="${esc(CMAP[id].title)}"></i>`}).join('')+(S.cfg.finale?'<i class="dot fin" title="Финал"></i>':'');
@@ -3493,7 +3747,8 @@ function renderStage(){
   if(S.phase==='close')ANIM.stamp=akey;
   if(freshStamp)archiveFly(num0(c),!!cs.diag);
   const play=S.phase==='play',tcl=cs.coop?'tcolc':'tcol'+cs.turn;
-  $('#diah').innerHTML=`<span class="q-big">${esc(c.question||'Что сломано?')}</span>${S.phase==='close'?'<button class="btn sm mechbtn" data-act="mech" data-w="stage">▶ Механизм</button>':(c.practice?'<span class="lbl">флажок — версия · наведите на белок — справка</span>':'')}`;
+  const dz=`<button class="btn sm dzbtn" data-act="dzoom" aria-pressed="${UI.dz!==false}">${UI.dz!==false?'⤡ Целиком':'⤢ Крупнее'}</button>`;
+  $('#diah').innerHTML=`<span class="q-big">${esc(c.question||'Что сломано?')}</span>${S.phase==='close'?'<button class="btn sm mechbtn" data-act="mech" data-w="stage">▶ Механизм</button>':(c.practice?`<span class="lbl">флажок — версия · ${hv('наведите на','нажмите на')} белок — справка</span>`:'')}${dz}`;
   stageDiagram();
   const vers=c.disp.map((canon,k)=>{const num=k+1,g=cs.guesses.find(x=>x.n===num),right=(cs.diag&&cs.diag.n===num)||(S.phase==='close'&&num===c.T);
     const chip=g?`<span class="who-chip ${tcls(g.team)}">${esc(dname(g.team))} ${g.ok?'✓':'✗'}</span>`:'';
@@ -3567,9 +3822,10 @@ function renderBar(){
     return `<div class="team tcol${t} ${now?'now':''} ${out?'out':''}"><span class="sw"></span><div class="tinfo"><div class="tn">${esc(name(t))}</div><div class="ts">${st||'&nbsp;'}</div></div>${S.badges.some(b=>b.t===t)?`<span class="bdgs">${badgeIcons(t)}</span>`:''}${now?ringSmall(cs.tl,S.cfg.turn*1000):''}<span class="sc mono">${S.teams[t].score}</span>${fl}</div>`}).join('');
   FLOATS=[];
   let say='',btn='';
+  const mp=`<button class="btn sm m-only" data-act="pause">${S.paused?'▶ Продолжить':'❚❚ Пауза'}</button>`;
   if(S.phase==='intro')say=`<span class="lbl">Ведущему</span>Прочитайте жалобу и данные, затем начните расследование.`;
-  else if(play&&cs.coop)say=`<span class="lbl">Код синий · все штабы вместе</span><b>Анализ или диагноз?</b> Решение общее: говорит любой капитан, ведущий нажимает.`,btn=`<div class="bluet ${cs.tl<=30000?'low':''}" id="bluet">${fmt(cs.tl)}</div><button class="btn sm" data-act="addtime">+15 с</button>`;
-  else if(play)say=`<span class="lbl">Ход · ${esc(name(cs.turn))}</span><b>Анализ или диагноз?</b> Анализ — строка справа или клавиши 1–8. Диагноз — флажок на схеме.`,btn=`<button class="btn sm" data-act="addtime">+15 с</button>`;
+  else if(play&&cs.coop)say=`<span class="lbl">Код синий · все штабы вместе</span><b>Анализ или диагноз?</b> Решение общее: говорит любой капитан, ведущий нажимает.`,btn=`<div class="bluet ${cs.tl<=30000?'low':''}" id="bluet">${fmt(cs.tl)}</div>${mp}<button class="btn sm" data-act="addtime">+15 с</button>`;
+  else if(play)say=`<span class="lbl">Ход · ${esc(name(cs.turn))}</span><b>Анализ или диагноз?</b> ${hv('Анализ — строка справа или клавиши 1–8. Диагноз — флажок на схеме.','Анализ — строка в списке анализов. Диагноз — флажок на схеме или номер версии.')}`,btn=`${mp}<button class="btn sm" data-act="addtime">+15 с</button>`;
   else if(S.phase==='wait')say=`<span class="lbl">Итог хода</span>Смотрим результат…`;
   else if(S.phase==='treat')say=`<span class="lbl">${esc(c.step.label)}</span>Все команды одновременно поднимают карточку А–Г.`;
   else if(S.phase==='close')say=`<span class="lbl">Дело закрыто</span>Покажите на схеме, где оборвался сигнал.`;
@@ -3635,7 +3891,7 @@ function howtoHTML(){
     <div class="howto">${howtoCards()}</div>
     ${DOS()?'':'<!--'}<div class="hcard" style="margin-top:.7rem;border-color:var(--gold)"><span class="hn" style="color:var(--gold)">ФИНАЛ</span><h3>«Гормон X» со ставками</h3><p>Каждая команда пишет на листке <b>ставку от 0 до 10</b> и номера <b>ровно трёх</b> ответов клетки. Все три верны — <b>+ставка</b>. Хотя бы один неверный — <b>−ставка</b>.</p></div>${DOS()?'':'-->'}
     <div class="howto2"><div class="hcard" style="border-color:var(--coop)"><span class="hn" style="color:var(--coop)">КОД СИНИЙ</span><h3>Общее дело</h3><p>Одно дело за игру — «код синий». Все три штаба спасают пациента вместе, ходов по очереди нет, общий таймер ${fmt(S.cfg.blueT*1000)}. Спасли — <b>каждому +3</b>.</p></div>
-    <div class="hcard"><span class="hn">СПРАВКА</span><h3>Наведите на белок</h3><p>Любой узел схемы открывает карточку: что это за молекула и как она работает в норме; клик закрепляет её. Ионы, пузырьки и отсеки клетки тоже подписаны при наведении. Подсказок к ответу там нет, ход это не тратит.</p></div></div>
+    <div class="hcard"><span class="hn">СПРАВКА</span><h3>${hv('Наведите на белок','Нажмите на белок')}</h3><p>Любой узел схемы открывает карточку: что это за молекула и как она работает в норме${hv('; клик закрепляет её','')}. Ионы, пузырьки и отсеки клетки тоже подписаны ${hv('при наведении','— нажмите на них')}. Подсказок к ответу там нет, ход это не тратит.</p></div></div>
     <div class="howto2">${DOS()?`<div class="hcard"><span class="hn">ДОСЬЕ</span><h3>«Пациент Икс»</h3><p>Каждое закрытое дело рассекречивает строку досье на загадочный гормон X. Перед финалом досье открывается целиком — это <b>подсказки</b> к финальному делу. Очков досье не даёт.</p></div>`:''}
     <div class="hcard"><span class="hn">ЗНАЧКИ</span><h3>За стиль игры</h3><p>${Object.entries(BADGES).filter(([k])=>k!=='allin'||DOS()).map(([k,b])=>`<b>${b.name}</b> — ${b.why}`).join('; ')}. Значки <b>очков не дают</b>.</p></div></div>
     <div class="faq">
@@ -3669,7 +3925,7 @@ function modalHTML(){
       ${ig?`<div><div class="lbl" style="margin-bottom:.45rem">Игра</div><div class="row"><button class="btn" data-act="undo" ${UNDO.length?'':'disabled'}>Отменить последнее действие <span class="kbd">Z</span></button></div></div>
       <div><div class="lbl" style="margin-bottom:.45rem">Штраф −1 за выкрик или подсказку</div><div class="row">${[0,1,2].map(t=>`<button class="btn tcol${t}" style="border-color:var(--tc)" data-act="pen" data-t="${t}">${esc(name(t))} −1</button>`).join('')}</div></div>
       <div class="row"><button class="btn danger" data-act="ask-end">Завершить игру → итоги</button><button class="btn danger" data-act="ask-new">Новая игра</button></div>`:''}
-      <div class="muted" style="font-size:.85rem;line-height:1.6;font-weight:700"><b>Клавиши:</b> Enter — главная кнопка · Пробел — пауза · 1–8 — открыть анализ · Z — отменить · F — полный экран · Esc — закрыть окно.</div></div></div></div>`}
+      <div class="muted kbhelp" style="font-size:.85rem;line-height:1.6;font-weight:700"><b>Клавиши:</b> Enter — главная кнопка · Пробел — пауза · 1–8 — открыть анализ · Z — отменить · F — полный экран · Esc — закрыть окно.</div></div></div></div>`}
   if(m.k==='end')return `<div class="ov"><div class="sheet confirm"><h2>Завершить игру?</h2><p class="muted" style="font-weight:700">Сразу откроются итоги с текущими очками. Это можно отменить клавишей Z.</p><div class="row end"><button class="btn" data-act="close-modal">Отмена</button><button class="btn primary" data-act="end-yes" data-hot>Завершить</button></div></div></div>`;
   if(m.k==='replay')return replayHTML(m.ci);
   if(m.k==='new')return `<div class="ov"><div class="sheet confirm"><h2>Начать новую игру?</h2><p class="muted" style="font-weight:700">Текущая игра закончится. Названия штабов сохранятся.</p><div class="row end"><button class="btn" data-act="close-modal">Отмена</button><button class="btn primary" data-act="new-yes" data-hot>Новая игра</button></div></div></div>`;
@@ -3860,7 +4116,7 @@ function gradeUI(){
 /* ---------- справка по узлу: наведение показывает, клик закрепляет ---------- */
 let POP=null,POPPIN=false,POPH=0;
 function closePop(){clearTimeout(POPH);const p=$('#pop');if(p)p.remove();if(POP){POP.classList.remove('picked');POP=null}POPPIN=false}
-function popFoot(pinned){return pinned?'Закреплено · Esc или клик мимо — закрыть':'Клик по узлу — закрепить справку'}
+function popFoot(pinned){return TOUCH?'Коснитесь мимо, чтобы закрыть':pinned?'Закреплено · Esc или клик мимо — закрыть':'Клик по узлу — закрепить справку'}
 function pinPop(){POPPIN=true;const p=$('#pop');if(p){p.classList.add('pinned');const k=p.querySelector('.pop-k');if(k)k.textContent=popFoot(true)}}
 function nodePop(el,pinned){
   const svg=el.closest('svg'),cid=svg&&svg.dataset.cid,id=el.dataset.n;if(!cid)return;
@@ -3877,7 +4133,10 @@ function nodePop(el,pinned){
       `<rect class="pop-out" x="${x0}" y="${vb[1]-4}" width="${w}" height="${Math.max(0,y0-vb[1]+4)}"/><rect x="${x0}" y="${y0}" width="${w}" height="25" fill="url(#popmo)"/><rect x="${x0}" y="${y0+25}" width="${w}" height="25" fill="url(#popmi)"/>`}
   const big=vb[2]>150||vb[3]>150;
   document.body.insertAdjacentHTML('beforeend',`<div class="pop${pinned?' pinned':''}" id="pop" role="dialog" aria-label="Справка: ${esc(m.n)}"><svg class="dia pop-g${big?' big':''}" viewBox="${vb.map(v=>v.toFixed(1)).join(' ')}" aria-hidden="true">${memb}<g class="nd k-${n.kind} g-${n.g}${n.mem?' mem':''}"><g class="nd-in">${GLY.glyph(n,{noPill:true})}</g></g></svg><div class="pop-t"><div class="lbl">Справка · ${esc(m.t||'узел схемы')}</div><h4>${esc(m.n)}</h4><p>${esc(m.i||'')}</p><div class="pop-f">Как это работает в норме — подсказки к ответу здесь нет.<span class="pop-k">${popFoot(pinned)}</span></div></div></div>`);
-  const p=$('#pop'),r=el.getBoundingClientRect(),pr=p.getBoundingClientRect();
+  const p=$('#pop'),r=el.getBoundingClientRect();
+  /* телефон: справка — шторка снизу экрана, во всю ширину */
+  if(isNarrow()){p.classList.add('sheet-pop');el.classList.add('picked');POP=el;POPPIN=!!pinned;return}
+  const pr=p.getBoundingClientRect();
   let x=r.right+14;if(x+pr.width>innerWidth-12)x=r.left-14-pr.width;if(x<12)x=clamp(r.left+r.width/2-pr.width/2,12,Math.max(12,innerWidth-12-pr.width));
   let y=clamp(r.top+r.height/2-pr.height/2,12,Math.max(12,innerHeight-12-pr.height));
   /* если не влезла сбоку — над или под узлом, но не поверх него */
@@ -3908,10 +4167,16 @@ document.addEventListener('pointermove',e=>{if(!isMouse(e)||!e.target.closest)re
   if(!t||e.target.closest('.nd,.pin,#pop')||t.closest('.pop-g')||!hoverable(t)){if(CT.cur)ctipHide();return}
   if(CT.cur===t){if(CT.el&&CT.el.classList.contains('on'))ctipPlace(e);return}
   ctipHide();CT.cur=t;const ev={clientX:e.clientX,clientY:e.clientY};
-  CT.t=setTimeout(()=>{if(CT.cur!==t||!t.isConnected)return;if(!CT.el){document.body.insertAdjacentHTML('beforeend','<div class="ctip" id="ctip" role="tooltip"></div>');CT.el=$('#ctip')}
-    const [h,b]=(t.dataset.tip||'').split('|');CT.el.innerHTML=`<b>${esc(h)}</b>${b?`<span>${esc(b)}</span>`:''}`;CT.el.classList.add('on');ctipPlace(ev)},380);
+  CT.t=setTimeout(()=>ctipShow(t,ev),380);
   CT.t2=ev;
 },{passive:true});
+function ctipShow(t,ev){if(CT.cur!==t||!t.isConnected)return;if(!CT.el){document.body.insertAdjacentHTML('beforeend','<div class="ctip" id="ctip" role="tooltip"></div>');CT.el=$('#ctip')}
+  const [h,b]=(t.dataset.tip||'').split('|');CT.el.innerHTML=`<b>${esc(h)}</b>${b?`<span>${esc(b)}</span>`:''}`;CT.el.classList.add('on');ctipPlace(ev)}
+/* касание: подсказка к отсеку или молекуле — по тапу, прячется при следующем касании или через несколько секунд */
+let LASTPT='mouse';document.addEventListener('pointerdown',e=>{LASTPT=e.pointerType||'mouse'},true);
+document.addEventListener('click',e=>{if(LASTPT==='mouse'||!e.target.closest)return;
+  const t=e.target.closest('.dia [data-tip]');if(!t||e.target.closest('.nd,.pin,#pop')||t.closest('.pop-g')||!hoverable(t))return;
+  ctipHide();CT.cur=t;ctipShow(t,{clientX:e.clientX,clientY:e.clientY});CT.t=setTimeout(ctipHide,4000)});
 document.addEventListener('pointermove',e=>{if(CT.cur&&CT.t2){CT.t2.clientX=e.clientX;CT.t2.clientY=e.clientY}},{passive:true});
 document.addEventListener('pointerdown',ctipHide);
 window.addEventListener('blur',()=>{ctipHide();if(POP&&!POPPIN)closePop()});
@@ -3985,6 +4250,7 @@ function diveRun(c){
   const dz=document.createElement('div');dz.className='dive';
   dz.innerHTML=`${org?`<div class="dv dv-body">${bodySVG([org],'big')}</div>`:''}<div class="dv dv-tis ${culture&&c.id!=='ins'?'dish':''}">${culture&&c.id!=='ins'?dishSVG():motifSVG(c.motif)}</div><div class="dv dv-cell">${cellSVG()}</div><div class="dv-cap">${steps.map(t=>`<span>${esc(t)}</span>`).join('<i>›</i>')}</div>`;
   host.appendChild(dz);
+  if(host.scrollWidth>host.clientWidth+1){dz.style.right='auto';dz.style.left=host.scrollLeft+'px';dz.style.width=host.clientWidth+'px'}
   const IN='cubic-bezier(.2,.6,.3,1)',HOLD='cubic-bezier(.45,0,.55,1)',OUT='cubic-bezier(.6,0,.9,.5)',anims=[];
   if(org){const sv=dz.querySelector('.dv-body svg'),hr=host.getBoundingClientRect(),sr=sv.getBoundingClientRect(),[ox,oy]=ORG_AT[org];
     const dx=hr.left+hr.width/2-(sr.left+sr.width*ox/100),dy=hr.top+hr.height/2-(sr.top+sr.height*oy/200);sv.style.transformOrigin=`${ox}% ${oy/2}%`;
@@ -4034,7 +4300,7 @@ function finCine(){
   const el=document.createElement('div');el.className='cine';el.title='Нажмите, чтобы пропустить';
   el.innerHTML=`<div class="cn cn-dia">${diagramSVG(FINALE.dia,geom(FINALE.dia,'finale'),[],'')}</div><div class="cn cn-tis">${tissueSVG()}</div>
    <div class="cn cn-body"><div class="cb-wrap">${bodySVG(['lungs','gut','nodes'],'big')}<span class="cb-l l1">гладкие мышцы<small>бронхи, сосуды, кишка</small></span><span class="cb-l l2">секреторные клетки<small>железы</small></span><span class="cb-l l3">лимфоциты<small>лимфоузлы</small></span></div></div>
-   <div class="cn-title">Гормон X действует на клетки по всему телу</div><div class="cn-cap"><span>одна клетка</span><i>›</i><span>ткань</span><i>›</i><span>организм</span></div><div class="cn-skip">Enter или клик — пропустить</div>`;
+   <div class="cn-title">Гормон X действует на клетки по всему телу</div><div class="cn-cap"><span>одна клетка</span><i>›</i><span>ткань</span><i>›</i><span>организм</span></div><div class="cn-skip">${hv('Enter или клик — пропустить','Коснитесь, чтобы пропустить')}</div>`;
   document.body.appendChild(el);el.addEventListener('click',skipCine);
   if(RM){el.classList.add('still','labels');el.querySelectorAll('.cn-cap span')[2].classList.add('on');setTimeout(()=>{if(el.isConnected)el.remove()},2800);return}
   const ease='cubic-bezier(.45,0,.3,1)',A=(sel,kf,o)=>el.querySelector(sel).animate(kf,Object.assign({fill:'both',easing:ease},o));
@@ -4079,7 +4345,7 @@ function atlasHTML(){
   if(!A.ids.length)return `<div class="pnl empty-note">Закрытых дел пока нет — атлас соберётся после первых дел.</div>`;
   const shared=Object.values(A.hubs).filter(x=>x.length>=2).length;
   const list=A.ids.map(id=>{const c=CMAP[id],h=brkHub(id);return `<li data-case="${id}" tabindex="0"><span class="task">№${tnum(c.task)}</span><span class="at-tt">${esc(c.title)}</span><em>${h?'сломано: '+esc(ATLAS.nodes[h][2]):''}</em></li>`}).join('');
-  return `<div class="at-wrap"><div class="pnl at-map">${atlasSVG(A)}</div><aside class="pnl at-side"><div class="lbl">Атлас смены</div><h2>${A.ids.length} ${plural(A.ids.length,['дело','дела','дел'])} на одной карте</h2><p>Все сыгранные схемы сведены в одну сеть. Чем чаще узел встречался, тем ярче он светится. Красные метки с номерами задач — где сломался сигнал.</p><div class="at-kpi"><b>${shared}</b><span>${plural(shared,['узел встречался','узла встречались','узлов встречались'])} в двух делах и больше</span></div><div class="lbl" style="margin-top:.4rem">Наведите на дело — подсветится его путь</div><ol class="at-list">${list}</ol></aside></div>`;
+  return `<div class="at-wrap"><div class="pnl at-map">${atlasSVG(A)}</div><aside class="pnl at-side"><div class="lbl">Атлас смены</div><h2>${A.ids.length} ${plural(A.ids.length,['дело','дела','дел'])} на одной карте</h2><p>Все сыгранные схемы сведены в одну сеть. Чем чаще узел встречался, тем ярче он светится. Красные метки с номерами задач — где сломался сигнал.</p><div class="at-kpi"><b>${shared}</b><span>${plural(shared,['узел встречался','узла встречались','узлов встречались'])} в двух делах и больше</span></div><div class="lbl" style="margin-top:.4rem">${hv('Наведите на дело','Нажмите на дело')} — подсветится его путь</div><ol class="at-list">${list}</ol></aside></div>`;
 }
 function atlasBind(){
   const svg=$('#full .atlas');if(!svg)return;const on=id=>{svg.classList.toggle('focus',!!id);svg.querySelectorAll('.at-n').forEach(g=>g.classList.toggle('hl',!!id&&g.dataset.cases.split(' ').includes(id)));svg.querySelectorAll('.at-pin').forEach(g=>g.classList.toggle('hl',g.dataset.case===id));const H=new Set();if(id)svg.querySelectorAll('.at-n.hl').forEach(g=>H.add(g.dataset.hub));svg.querySelectorAll('[data-a]').forEach(e=>e.classList.toggle('hl',H.has(e.dataset.a)&&H.has(e.dataset.b)))};
@@ -4225,7 +4491,7 @@ const TOUR=[
 const TIPS={
   test:{sel:'#testsp',h:'Первая улика',p:'Результат видят все штабы. Подумайте, какие версии он исключает. Программа их не зачёркивает — это и есть расследование.'},
   treat:{sel:'#ov .sheet.treat .entry',h:'Лечение',p:'Все штабы одновременно поднимают карточку А–Г. Отметьте ответ каждого и нажмите «Вскрыть». Верно — +2.'},
-  close:{sel:'#diabox',h:'Вскрытие',p:'Анимация показывает путь сигнала и место поломки. «▶ Механизм» повторяет её. Наведите на белок — откроется справка.'}
+  close:{sel:'#diabox',h:'Вскрытие',p:'Анимация показывает путь сигнала и место поломки. «▶ Механизм» повторяет её. '+hv('Наведите на белок','Нажмите на белок')+' — откроется справка.'}
 };
 const TIPPH={tour:'play',test:'play',treat:'treat',close:'close'};
 function coachTour(){if(S.tips.tour)return;coachStart(TOUR,'tour')}
@@ -4235,11 +4501,13 @@ function coachStart(steps,key){
   if(TIPPH[key]&&S.phase!==TIPPH[key]||S.modal||SUSP)return;
   S.tips[key]=1;COACH.on=true;COACH.i=0;COACH.steps=steps;COACH.key=key;
   let el=$('#coach');if(!el){el=document.createElement('div');el.id='coach';document.body.appendChild(el)}
-  el.innerHTML='<div class="cm-spot"></div><div class="cm-bub" role="dialog" aria-live="polite"></div>';coachPlace();
+  el.innerHTML='<div class="cm-spot"></div><div class="cm-bub" role="dialog" aria-live="polite"></div>';coachPlace(true);
 }
-function coachPlace(){
+function coachPlace(go){
   const el=$('#coach');if(!el||!COACH.on)return;const st=COACH.steps[COACH.i],t=$(st.sel);
   if(!t){coachNext();return}
+  /* телефон: цель подсказки может быть ниже экрана — подводим её наверх, под ней останется место для пузыря */
+  if(go&&isNarrow()&&t.scrollIntoView&&!t.closest('#ov')&&(()=>{const q=t.getBoundingClientRect();return q.top<0||q.bottom>innerHeight})()){try{t.scrollIntoView({block:'start',behavior:'instant'})}catch(e){t.scrollIntoView()}}
   const r=t.getBoundingClientRect(),sp=el.querySelector('.cm-spot'),bub=el.querySelector('.cm-bub'),last=COACH.i===COACH.steps.length-1,multi=COACH.steps.length>1;
   sp.style.cssText=`left:${r.left-6}px;top:${r.top-6}px;width:${r.width+12}px;height:${r.height+12}px`;
   bub.innerHTML=`<div class="lbl">${multi?`Подсказка ${COACH.i+1} из ${COACH.steps.length}`:'Подсказка'}</div><h4>${esc(st.h)}</h4><p>${esc(st.p)}</p><div class="row end">${multi&&!last?'<button class="btn sm ghost" data-act="coach-skip">Пропустить</button>':''}<button class="btn primary" data-act="coach-next">${last?(multi?'Понятно, играем':'Понятно'):'Дальше'} <span class="kbd">↵</span></button></div>`;
@@ -4247,9 +4515,12 @@ function coachPlace(){
   if(r.right+16+bw<innerWidth-8){x=r.right+16;y=r.top}else if(r.left-16-bw>8){x=r.left-16-bw;y=r.top}else{x=clamp(r.left,12,innerWidth-bw-12);y=r.bottom+16>innerHeight-bh-8?r.top-16-bh:r.bottom+16}
   bub.style.width=bw+'px';bub.style.left=clamp(x,12,innerWidth-bw-12)+'px';bub.style.top=clamp(y,12,innerHeight-bh-12)+'px';
 }
-function coachNext(){if(!COACH.on)return;if(COACH.i<COACH.steps.length-1){COACH.i++;coachPlace()}else coachEnd()}
+function coachNext(){if(!COACH.on)return;if(COACH.i<COACH.steps.length-1){COACH.i++;coachPlace(true)}else coachEnd()}
 function coachEnd(silent){COACH.on=false;const el=$('#coach');if(el)el.remove();if(silent){COACH.q=[];return}save();const nx=COACH.q.shift();if(nx)setTimeout(()=>{if(!COACH.on)coachStart(nx.steps,nx.key)},300)}
-addEventListener('resize',()=>{if(COACH.on)coachPlace();closePop()});
+/* на телефоне «resize» приходит и от прячущейся адресной строки — справку закрываем, только если поменялась ширина */
+let LASTW=innerWidth;
+addEventListener('resize',()=>{if(COACH.on)coachPlace();if(!TOUCH||innerWidth!==LASTW)closePop();LASTW=innerWidth});
+let SCRF=0;addEventListener('scroll',()=>{if(LASTPT!=='mouse'&&CT.cur)ctipHide();if(!COACH.on||SCRF)return;SCRF=requestAnimationFrame(()=>{SCRF=0;coachPlace()})},{passive:true});
 
 /* ---------- оформление «Терминал»: цифровой дождь из биохимических символов и двуликая Янус-киназа ---------- */
 const GLYPHS=[...'АТГЦУ0123456789αβγδεκλμπΔΣΨ+−=≈ФКРБНЖ∂∫→'];
@@ -4386,7 +4657,7 @@ const H={
   freveal(){if(S.phase==='finale'&&S.fin&&!S.fin.rev)finReveal()},
   results(){S.modal=null;S.phase='results';S.rv='pod';render()},
   debrief(){S.phase='debrief';render()},
-  dsel(el){S.deb=el.dataset.id;render();const f=$('#full .full');if(f)f.scrollTop=0},
+  dsel(el){S.deb=el.dataset.id;render();const f=$('#full .full');if(f)f.scrollTop=0;const sb=isNarrow()&&$('#full .deb-nav button.sel');if(sb){const nv=sb.parentElement,a=sb.getBoundingClientRect(),b=nv.getBoundingClientRect();nv.scrollLeft+=a.left+a.width/2-(b.left+b.width/2)}},
   node(el){if(POP===el){if(!POPPIN){pinPop();return}closePop();return}nodePop(el,true)},
   mech(el){const w=el.dataset.w;if(w==='rp')replayRun(true);const svg=w==='deb'?$('#full .deb-dia svg'):w==='rp'?$('#ov .rp-dia svg'):DIA.svg;if(!svg)return;const cid=svg.dataset.cid,c=CMAP[cid];if(!c)return;mechPlay(svg,c,w==='stage'?DIA.G:geom(c.dia,c.id))},
   rv(el){const v=el.dataset.v;S.modal=null;if(v==='deb')S.phase='debrief';else{S.phase='results';S.rv=v}render();const f=$('#full .full');if(f)f.scrollTop=0},
@@ -4395,6 +4666,7 @@ const H={
   blue(){if(S.cfg.blue){S.cfg.blueLast=S.cfg.blue;S.cfg.blue=''}else S.cfg.blue=S.cfg.blueLast||'bee';render()},
   bluesel(el){const ids=['',...CASES.filter(c=>!c.practice).map(c=>c.id)];let i=ids.indexOf(S.cfg.blue);i=(i+ +el.dataset.d+ids.length)%ids.length;S.cfg.blue=ids[i];if(ids[i])S.cfg.blueLast=ids[i];render()},
   coachcfg(){S.cfg.coach=!S.cfg.coach;render()},
+  dzoom(){UI.dz=UI.dz===false;store.set(LSUI,UI);render();if(UI.dz)diaFocus()},
   'coach-next'(){coachNext()},
   'coach-skip'(){coachEnd()}
 };
